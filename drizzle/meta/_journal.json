@@ -8,6 +8,13 @@
       "when": 1721048766596,
       "tag": "0000_tearful_loa",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1721081238828,
+      "tag": "0001_eager_mercury",
+      "breakpoints": true
     }
   ]
 }
