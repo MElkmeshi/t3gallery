@@ -1,7 +1,13 @@
+"use client";
+
 import { UserButton, SignInButton, SignedOut, SignedIn } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
+import { useTheme } from "next-themes";
 import { ModeToggle } from "~/components/ui/ModeToggle";
 
 export default function TopNav() {
+  const { theme } = useTheme();
+
   return (
     <nav className="flex w-full items-center justify-between border-b p-4 text-xl font-semibold">
       <div className="flex space-x-8">
@@ -15,7 +21,11 @@ export default function TopNav() {
           <SignInButton />
         </SignedOut>
         <SignedIn>
-          <UserButton />
+          <UserButton
+            appearance={{
+              baseTheme: theme === "dark" ? dark : undefined,
+            }}
+          />
         </SignedIn>
       </div>
     </nav>
