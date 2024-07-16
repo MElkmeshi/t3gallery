@@ -70,29 +70,37 @@ export const postsRelations = relations(pos, ({ one }) => ({
   }),
 }));
 
-export const Collections = createTable("Collection", {
-  id: serial("id").primaryKey(),
-  employeeId: integer("employee_id")
-    .notNull()
-    .references(() => employees.id),
-  posId: integer("pos_id")
-    .notNull()
-    .references(() => pos.id),
-  amount: integer("amount").notNull(),
-  referenceNumber: integer("reference_number").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  updatedAt: timestamp("updatedAt", { withTimezone: true }),
-});
+export const collections = createTable(
+  "collection",
+  {
+    id: serial("id").primaryKey(),
+    employeeId: integer("employee_id")
+      .notNull()
+      .references(() => employees.id),
+    posId: integer("pos_id")
+      .notNull()
+      .references(() => pos.id),
+    amount: integer("amount").notNull(),
+    referenceNumber: integer("reference_number").notNull().unique(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updatedAt", { withTimezone: true }),
+  },
+  (example) => ({
+    referenceNumberIndex: index("reference_number_idx").on(
+      example.referenceNumber,
+    ),
+  }),
+);
 
-export const CollectionsRelations = relations(Collections, ({ one }) => ({
+export const collectionsRelations = relations(collections, ({ one }) => ({
   employee: one(employees, {
-    fields: [Collections.employeeId],
+    fields: [collections.employeeId],
     references: [employees.id],
   }),
   pos: one(pos, {
-    fields: [Collections.posId],
+    fields: [collections.posId],
     references: [pos.id],
   }),
 }));

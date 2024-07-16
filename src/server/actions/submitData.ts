@@ -1,35 +1,26 @@
 "use server";
-import type { Option } from "types/Option";
-import { type SingleValue } from "react-select";
 import { db } from "../db";
-import { Collections } from "../db/schema";
+import { collections } from "../db/schema";
 
 interface FormData {
-  selectedEmployee: SingleValue<Option>;
-  selectedStore: SingleValue<Option>;
+  selectedEmployee: number;
+  selectedPos: number;
   amount: number;
   referenceNumber: number;
 }
 
 export const submitFormData = async ({
   selectedEmployee,
-  selectedStore,
+  selectedPos,
   amount,
   referenceNumber,
 }: FormData) => {
-  console.log("Form data submitted:", {
-    selectedEmployee,
-    selectedStore,
-    amount,
-    referenceNumber,
-  });
-
   try {
-    await db.insert(Collections).values({
-      employeeId: selectedEmployee!.value,
-      posId: selectedStore!.value,
+    await db.insert(collections).values({
       amount: amount,
       referenceNumber: referenceNumber,
+      employeeId: selectedEmployee,
+      posId: selectedPos,
     });
     return { success: true };
   } catch (error) {
