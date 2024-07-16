@@ -15,6 +15,13 @@
       "when": 1721081238828,
       "tag": "0001_eager_mercury",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1721151494316,
+      "tag": "0002_watery_jackpot",
+      "breakpoints": true
     }
   ]
 }
