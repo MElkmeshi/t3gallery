@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-// import { fetchCollection } from "~/server/actions/collections";
 import { InferSelectModel } from "drizzle-orm";
 import { collections, employees, pos } from "~/server/db/schema";
 import { KeyboardEventHandler, useState } from "react";
@@ -18,7 +17,7 @@ type CollectionWithEmployeePos = InferSelectModel<typeof collections> & {
   pos: InferSelectModel<typeof pos>;
 };
 
-const CollectionsList = () => {
+const InquiryComponet = () => {
   const [referenceNumber, setReferenceNumber] = useState("");
   const [collection, setCollection] = useState<CollectionWithEmployeePos>({
     employee: { name: "", id: 0 },
@@ -30,11 +29,6 @@ const CollectionsList = () => {
   //@ts-ignore
   const handleInputChange = (e) => {
     setReferenceNumber(e.target.value);
-  };
-  const handleKeyPress = async (e: KeyboardEventHandler<HTMLInputElement>) => {
-    if (e.key === "Enter" && referenceNumber) {
-      await fetchCollectionData();
-    }
   };
 
   const handleInputBlur = async () => {
@@ -68,7 +62,11 @@ const CollectionsList = () => {
         value={referenceNumber}
         onChange={handleInputChange}
         onBlur={handleInputBlur}
-        onKeyPress={handleKeyPress}
+        onKeyDown={async (e) => {
+          if (e.key === "Enter" && referenceNumber) {
+            await fetchCollectionData();
+          }
+        }}
       />
       {error && <p className="mt-2 text-red-500">{error}</p>}
       {collection.id !== 0 && (
@@ -84,4 +82,4 @@ const CollectionsList = () => {
   );
 };
 
-export default CollectionsList;
+export default InquiryComponet;
