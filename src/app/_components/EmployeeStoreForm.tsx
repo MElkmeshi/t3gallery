@@ -18,7 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import { toast } from "react-hot-toast";
+import { useToast } from "~/components/ui/use-toast";
 
 interface Props {
   empsOptions: Option[];
@@ -26,6 +26,7 @@ interface Props {
 }
 
 const EmployeeStoreForm = ({ empsOptions, posOptions }: Props) => {
+  const { toast } = useToast();
   const [selectedEmployee, setSelectedEmployee] = useState<string>("");
   const [selectedPos, setSelectedPos] = useState<string>("");
   const [filteredStoresOptions, setFilteredStoresOptions] = useState<Option[]>(
@@ -53,12 +54,18 @@ const EmployeeStoreForm = ({ empsOptions, posOptions }: Props) => {
     });
     setSubmitting(false);
     if (res.success) {
-      toast.success("You did it!");
+      toast({
+        title: "You did it!",
+      });
       setSelectedPos("");
       setAmount("");
       setReferenceNumber("");
     } else {
-      toast.error("Something went wrong");
+      toast({
+        title: "Something went wrong",
+        description: "The Reference number may already exists",
+        variant: "destructive",
+      });
     }
   };
 

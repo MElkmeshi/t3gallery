@@ -52,9 +52,13 @@ export function Combobox({ options, name, onChange, value }: Props) {
               options.map((option) => (
                 <CommandItem
                   key={option.value}
-                  value={option.value}
+                  value={`${option.label} * ${option.value}`}
                   onSelect={(currentValue) => {
-                    onChange(currentValue === value ? "" : currentValue);
+                    onChange(
+                      currentValue === value
+                        ? ""
+                        : currentValue.split(" * ")[1]!,
+                    );
                     setOpen(false);
                   }}
                 >

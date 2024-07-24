@@ -12,7 +12,7 @@ export default function TopNav() {
     <nav className="flex w-full items-center justify-between border-b p-4 text-xl font-semibold">
       <div className="flex space-x-8">
         <a href="/jebyaa">Jebyaa</a>
-        <a href="/inquiry">inquiry</a>
+        <a href="/collections">Collections</a>
         <a href="/summary ">Summary</a>
       </div>
       <div>
