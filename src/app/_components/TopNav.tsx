@@ -14,6 +14,7 @@ export default function TopNav() {
         <a href="/jebyaa">Jebyaa</a>
         <a href="/inquiry">Inquiry</a>
         <a href="/summary ">Summary</a>
+        <a href="/powerbi ">Power BI</a>
       </div>
       <div>
         <ModeToggle />

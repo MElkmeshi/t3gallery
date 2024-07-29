@@ -11,6 +11,14 @@ import { InferSelectModel } from "drizzle-orm";
 import { collections, employees, pos } from "~/server/db/schema";
 import { KeyboardEventHandler, useState } from "react";
 import { fetchCollection } from "~/server/actions/collections";
+import { Form, useForm } from "react-hook-form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "~/components/ui/form";
+import { Button } from "~/components/ui/button";
 
 type CollectionWithEmployeePos = InferSelectModel<typeof collections> & {
   employee: InferSelectModel<typeof employees>;
@@ -18,6 +26,8 @@ type CollectionWithEmployeePos = InferSelectModel<typeof collections> & {
 };
 
 const InquiryComponet = () => {
+  const form = useForm();
+
   const [referenceNumber, setReferenceNumber] = useState("");
   const [collection, setCollection] = useState<CollectionWithEmployeePos>({
     employee: { name: "", id: 0 },
@@ -38,6 +48,17 @@ const InquiryComponet = () => {
   };
 
   const fetchCollectionData = async () => {
+    if (collection.referenceNumber === Number(referenceNumber)) {
+      return;
+    }
+    setCollection({
+      employee: { name: "", id: 0 },
+      pos: { name: "", id: 0 },
+      amount: 0,
+      id: 0,
+    } as CollectionWithEmployeePos);
+    setError("");
+
     try {
       const result = await fetchCollection(referenceNumber);
       setCollection(result);
@@ -55,19 +76,30 @@ const InquiryComponet = () => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center">
-      <Input
-        type="number"
-        placeholder="Reference Number"
-        value={referenceNumber}
-        onChange={handleInputChange}
-        onBlur={handleInputBlur}
-        onKeyDown={async (e) => {
-          if (e.key === "Enter" && referenceNumber) {
-            await fetchCollectionData();
-          }
+    <>
+      <Form
+        {...form}
+        onSubmit={async () => {
+          await fetchCollectionData();
         }}
-      />
+      >
+        <Input
+          type="number"
+          placeholder="Reference Number"
+          value={referenceNumber}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          onKeyDown={async (e) => {
+            if (e.key === "Enter" && referenceNumber) {
+              await fetchCollectionData();
+            }
+          }}
+          className="w-[570px]"
+        />
+        <div className="mt-3 flex justify-end">
+          <Button type="submit">Submit</Button>
+        </div>
+      </Form>
       {error && <p className="mt-2 text-red-500">{error}</p>}
       {collection.id !== 0 && (
         <Card className="mt-6 w-[600px]">
@@ -78,7 +110,7 @@ const InquiryComponet = () => {
           </CardHeader>
         </Card>
       )}
-    </div>
+    </>
   );
 };
 

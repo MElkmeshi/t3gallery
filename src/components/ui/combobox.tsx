@@ -43,7 +43,7 @@ export function Combobox({ options, name, onChange, value }: Props) {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="max-h-screen min-w-[5750px] overflow-y-auto p-0">
+      <PopoverContent className="max-h-screen min-w-[420px] overflow-y-auto p-0">
         <Command>
           <CommandInput placeholder={`Search ${name}s...`} />
           <CommandEmpty>No {name} found.</CommandEmpty>
